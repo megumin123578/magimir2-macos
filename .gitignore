@@ -1,0 +1,66 @@
+# ==============================================================================
+# MagiMir2 macOS (ARM64) reverse-engineering workspace
+#
+# Nguyên tắc: chỉ commit MÃ NGUỒN + KẾT QUẢ PHÂN TÍCH (nhỏ, đọc được).
+# Mọi artifact nặng / sinh ra tự động / tải về từ bên ngoài đều được ignore.
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Flutter SDK (nested git clones - tuyệt đối không commit)
+#    Đây chính là nguồn gây ra cảnh báo "adding embedded git repository".
+# ------------------------------------------------------------------------------
+/.flutter-build-sdk/
+/.flutter-sdk/
+
+# ------------------------------------------------------------------------------
+# 2. Output sinh ra tự động (đều regenerate được bằng script)
+#    - extracted/          : mount/giải nén từ DMG  -> extract_dmg.ps1 / extract_dmg.js
+#    - .dmg-chunk-work/    : scratch space khi decode LZFSE chunk
+#    - dist/ build/ ...    : artifact build của Flutter
+# ------------------------------------------------------------------------------
+/extracted/
+/.dmg-chunk-work/
+/reconstruction/flutter_app/dist/
+/reconstruction/flutter_app/build/
+/reconstruction/flutter_app/.dart_tool/
+/reconstruction/flutter_app/.idea/
+**/*.iml
+
+# ------------------------------------------------------------------------------
+# 3. Input nhị phân lớn (giữ trên đĩa, KHÔNG đưa vào git)
+#    MagiMir2_raw.img = 217 MB  -> vượt giới hạn 100 MB của GitHub
+#    MagiMir2_*.dmg   =  59 MB  -> bản quyền app thương mại, không commit
+# ------------------------------------------------------------------------------
+*.dmg
+*.img
+*.raw
+
+# ------------------------------------------------------------------------------
+# 4. Công cụ bên thứ ba tải về / build tại chỗ (dùng lại được)
+#    tools/7zip-full, tools/7zip-portable, tools/lzfse-build, tools/lzfse-src
+# ------------------------------------------------------------------------------
+/tools/
+/7z2605-extra.7z
+/7z2605-x64.exe
+/7zr.exe
+/lzfse-master.zip
+
+# ------------------------------------------------------------------------------
+# 5. Log / file tạm
+# ------------------------------------------------------------------------------
+*.log
+*.tmp
+*.bak
+*.swp
+*.orig
+node_modules/
+
+# ------------------------------------------------------------------------------
+# 6. OS & Editor
+# ------------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+# .vscode/settings.json chứa đường dẫn tuyệt đối của máy này
+/.vscode/settings.json
